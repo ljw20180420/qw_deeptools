@@ -1,0 +1,30 @@
+configfile: "config/config.yaml"
+
+report: "report/workflow.rst"
+
+container: "docker://continuumio/miniconda3"
+
+# statements
+import os
+from snakemake.utils import min_version
+import requests
+
+min_version("8.20.6")
+genome = os.path.join(
+    "resources",
+    os.path.basename(config["genome_url"])
+)
+rmsk = os.path.join(
+    "resources",
+    os.path.basename(config["rmsk_url"])
+)
+rmsk_bed = "results/rmsk.bed"
+
+include: "rules/download.smk"
+include: "rules/process.smk"
+
+rule all:
+    input:
+        GCbiasFrequenciesFile = "results/DMSO-rep1.GCfreq.txt",
+        biasPlot = "results/DMSO-rep1.GCfreq.pdf"
+

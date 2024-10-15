@@ -1,0 +1,4 @@
+cores:
+  16
+resources:
+  mem_mb: 50000

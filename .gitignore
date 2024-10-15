@@ -1,0 +1,4 @@
+.cache
+.snakemake
+resources
+results
