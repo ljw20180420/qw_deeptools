@@ -13,9 +13,9 @@ rule plotFingerprint:
         bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        plotFile = "results/plotFingerprint.pdf",
+        plotFile = report("results/plotFingerprint.pdf", caption="../report/QC.rst", category="QC", subcategory="plotFingerprint"),
         outRawCounts = "results/plotFingerprint.tsv",
-        outQualityMetrics = "results/plotFingerprint.outQualityMetrics"
+        outQualityMetrics = report("results/plotFingerprint.outQualityMetrics.tsv", caption="../report/QC.rst", category="QC", subcategory="plotFingerprint")
     log: "results/log/plotFingerprint.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -32,9 +32,9 @@ rule bamPEFragmentSize:
         bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        histogram = "results/bamPEFragmentSize.pdf",
-        table = "results/bamPEFragmentSize.tsv",
-        outRawFragmentLengths = "results/outRawFragmentLengths.tsv"
+        histogram = report("results/bamPEFragmentSize.pdf", caption="../report/QC.rst", category="QC", subcategory="bamPEFragmentSize"),
+        table = report("results/bamPEFragmentSize.tsv", caption="../report/QC.rst", category="QC", subcategory="bamPEFragmentSize"),
+        outRawFragmentLengths = "results/bamPEFragmentSize.outRawFragmentLengths.tsv"
     log: "results/log/bamPEFragmentSize.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -54,7 +54,7 @@ rule plotCoverage:
         bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        plotFile = "results/plotCoverage.pdf",
+        plotFile = report("results/plotCoverage.pdf", caption="../report/QC.rst", category="QC", subcategory="plotCoverage"),
         outRawCounts = "results/plotCoverage.tsv"
     log: "results/log/plotCoverage.log"
     conda: "../envs/deeptools.yaml"
@@ -74,8 +74,8 @@ rule plotEnrichment:
         BED = get_all_peaks,
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        plotFile = "results/plotEnrichment.pdf",
-        outRawCounts = "results/plotEnrichment.tsv"
+        plotFile = report("results/plotEnrichment.pdf", caption="../report/QC.rst", category="QC", subcategory="plotEnrichment"),
+        outRawCounts = report("results/plotEnrichment.tsv", caption="../report/QC.rst", category="QC", subcategory="plotEnrichment")
     log: "results/log/plotEnrichment.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -95,7 +95,7 @@ rule estimateReadFiltering:
         bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        outFile = "results/estimateReadFiltering.tsv"
+        outFile = report("results/estimateReadFiltering.tsv", caption="../report/QC.rst", category="QC", subcategory="estimateReadFiltering")
     log: "results/log/estimateReadFiltering.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -116,7 +116,7 @@ rule alignmentSieve:
     conda: "../envs/deeptools.yaml"
     output:
         outFile = "results/{sample}.filtered.sorted.bam",
-        filterMetrics = "results/{sample}.filterMetrics",
+        filterMetrics = report("results/{sample}.filterMetrics.tsv", caption="../report/process.rst", category="process", subcategory="alignmentSieve"),
         filteredOutReads = "results/{sample}.filteredOutReads"
     shell:
         "alignmentSieve --bam {input.bam} --outFile {output.outFile} --numberOfProcessors {threads} --filterMetrics {output.filterMetrics} --filteredOutReads {output.filteredOutReads} --label {wildcards.sample} --genomeChunkLength {params.genomeChunkLength} {params.ignoreDuplicates} --minMappingQuality {params.minMappingQuality} --samFlagExclude {params.samFlagExclude} {params.blackListFileName} {input.blackListFileName} 2> {log}"
@@ -134,8 +134,8 @@ rule computeGCBias:
         genome = get_genome(),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        GCbiasFrequenciesFile = "results/{sample}.GCfreq.txt",
-        biasPlot = "results/{sample}.GCfreq.pdf"
+        GCbiasFrequenciesFile = report("results/{sample}.GCfreq.txt", caption="../report/process.rst", category="process", subcategory="computeGCBias"),
+        biasPlot = report("results/{sample}.GCfreq.pdf", caption="../report/process.rst", category="process", subcategory="computeGCBias"),
     log: "results/log/computeGCBias.{sample}.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -169,7 +169,7 @@ rule multiBamSummary:
     output:
         outFileName = "results/multiBamSummary.{bed}.npz",
         outRawCounts = "results/multiBamSummary.{bed}.tsv",
-        scalingFactors = "results/multiBamSummary.{bed}.scalingFactors"
+        scalingFactors = report("results/multiBamSummary.{bed}.scalingFactors.tsv", caption="../report/process.rst", category="process", subcategory="computeGCBias")
     log: "results/log/multiBamSummary.{bed}log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -184,8 +184,8 @@ rule plotCorrelation:
     input:
         corData = "results/multiBamSummary.{bed}.npz"
     output:
-        plotFile = "results/plotCorrelation.{bed}.pdf",
-        outFileCorMatrix = "results/plotCorrelation.{bed}.tsv"
+        plotFile = report("results/plotCorrelation.{bed}.pdf", caption="../report/process.rst", category="process", subcategory="plotCorrelation"),
+        outFileCorMatrix = report("results/plotCorrelation.{bed}.tsv", caption="../report/process.rst", category="process", subcategory="plotCorrelation")
     log: "results/log/plotCorrelation.{bed}.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -198,8 +198,8 @@ rule plotPCA:
     input:
         corData = "results/multiBamSummary.{bed}.npz"
     output:
-        plotFile = "results/plotPCA.{bed}.pdf",
-        outFileNameData = "results/plotPCA.{bed}.tsv"
+        plotFile = report("results/plotPCA.{bed}.pdf", caption="../report/process.rst", category="process", subcategory="plotPCA"),
+        outFileNameData = report("results/plotPCA.{bed}.tsv", caption="../report/process.rst", category="process", subcategory="plotPCA")
     log: "results/log/plotPCA.{bed}.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -218,7 +218,7 @@ rule bamCoverage:
         bam_index = "results/{sample}.corrected.filtered.sorted.bam.bai",
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
-        outFileName = r"results/{sample,.+(?<!\.averaged)$}.bigwig"
+        outFileName = r"results/{sample,.+(?<!\.averaged)}.bigwig"
     log: "results/log/bamCoverage.{sample}.log"
     conda: "../envs/deeptools.yaml"
     shell:
@@ -306,7 +306,7 @@ rule plotHeatmap:
     input:
         matrixFile = "results/computeMatrix.gz"
     output:
-        outFileName = "results/plotHeatmap.pdf",
+        outFileName = report("results/plotHeatmap.pdf", caption="../report/process.rst", category="process", subcategory="plotHeatmap"),
         outFileSortedRegions = "results/plotHeatmap.bed"
     log: "results/log/plotHeatmap.log"
     conda: "../envs/deeptools.yaml"

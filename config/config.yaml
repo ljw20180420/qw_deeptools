@@ -53,7 +53,7 @@ multiBamSummary:
 
 plotCorrelation:
   corMethod: "spearman"
-  whatToPlot: scatterplot
+  whatToPlot: "heatmap"
   skipZeros: "--skipZeros" # "" to triggle off
   removeOutliers: "--removeOutliers" # "" to triggle off
 
