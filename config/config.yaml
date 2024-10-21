@@ -1,4 +1,5 @@
 # genome url, must be .2bit
+# genome_url: "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.2bit"  
 genome_url: "file:///home/ljw/wuqiang/CZS/qw_deeptools/testdata/genome.2bit"
 # rmsk used as black list
 rmsk_url: ""

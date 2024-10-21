@@ -2,4 +2,3 @@
 .snakemake
 resources
 results
-testdata

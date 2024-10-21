@@ -1,1 +1,6 @@
 singularity/miniconda3.sif filter=lfs diff=lfs merge=lfs -text
+testdata/genome.2bit filter=lfs diff=lfs merge=lfs -text
+testdata/SPT5_T15_REP1.mLb.clN.sorted.bam filter=lfs diff=lfs merge=lfs -text
+testdata/SPT5_T15_REP2.mLb.clN.sorted.bam filter=lfs diff=lfs merge=lfs -text
+testdata/SPT5_T0_REP1.mLb.clN.sorted.bam filter=lfs diff=lfs merge=lfs -text
+testdata/SPT5_T0_REP2.mLb.clN.sorted.bam filter=lfs diff=lfs merge=lfs -text
