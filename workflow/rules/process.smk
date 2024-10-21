@@ -9,8 +9,8 @@ rule plotFingerprint:
         skipZeros = config["plotFingerprint"]["skipZeros"],
         blackListFileName = "--blackListFileName" if config["rmsk_url"] else ""
     input:
-        bamfiles = lambda wildcards: get_all_sorted_bam(wildcards, is_results=False),
-        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai", is_results=False),
+        bamfiles = get_all_sorted_bam,
+        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
         plotFile = "results/plotFingerprint.pdf",
@@ -28,8 +28,8 @@ rule bamPEFragmentSize:
         distanceBetweenBins = config["bamPEFragmentSize"]["distanceBetweenBins"],
         blackListFileName = "--blackListFileName" if config["rmsk_url"] else ""
     input:
-        bamfiles = lambda wildcards: get_all_sorted_bam(wildcards, is_results=False),
-        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai", is_results=False),
+        bamfiles = get_all_sorted_bam,
+        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
         histogram = "results/bamPEFragmentSize.pdf",
@@ -50,8 +50,8 @@ rule plotCoverage:
         minMappingQuality = config["plotCoverage"]["minMappingQuality"],
         samFlagExclude = config["plotCoverage"]["samFlagExclude"]
     input:
-        bamfiles = lambda wildcards: get_all_sorted_bam(wildcards, is_results=False),
-        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai", is_results=False),
+        bamfiles = get_all_sorted_bam,
+        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
         plotFile = "results/plotCoverage.pdf",
@@ -69,8 +69,8 @@ rule plotEnrichment:
         minMappingQuality = config["plotEnrichment"]["minMappingQuality"],
         samFlagExclude = config["plotEnrichment"]["samFlagExclude"]
     input:
-        bamfiles = lambda wildcards: get_all_sorted_bam(wildcards, is_results=False),
-        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai", is_results=False),
+        bamfiles = get_all_sorted_bam,
+        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
         BED = get_all_peaks,
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:
@@ -80,6 +80,26 @@ rule plotEnrichment:
     conda: "../envs/deeptools.yaml"
     shell:
         "plotEnrichment --bamfiles {input.bamfiles} --BED {input.BED} --plotFile {output.plotFile} --labels {params.samples} --smartLabels --outRawCounts {output.outRawCounts} {params.blackListFileName} {input.blackListFileName} --numberOfProcessors {threads} {params.ignoreDuplicates} --minMappingQuality {params.minMappingQuality} --samFlagExclude {params.samFlagExclude}"
+
+rule estimateReadFiltering:
+    params:
+        samples = get_all_samples,
+        binSize = config["estimateReadFiltering"]["binSize"],
+        distanceBetweenBins = config["estimateReadFiltering"]["distanceBetweenBins"],
+        ignoreDuplicates = config["alignmentSieve"]["ignoreDuplicates"], # use the same setting for alignmentSieve
+        minMappingQuality = config["alignmentSieve"]["minMappingQuality"],
+        samFlagExclude = config["alignmentSieve"]["samFlagExclude"],
+        blackListFileName = "--blackListFileName" if config["rmsk_url"] else ""
+    input:
+        bamfiles = get_all_sorted_bam,
+        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".sorted.bam.bai"),
+        blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
+    output:
+        outFile = "results/estimateReadFiltering.tsv"
+    log: "results/log/estimateReadFiltering.log"
+    conda: "../envs/deeptools.yaml"
+    shell:
+        "estimateReadFiltering --bamfiles {input.bamfiles} --outFile {output.outFile} --sampleLabels {params.samples} --binSize {params.binSize} --distanceBetweenBins {params.distanceBetweenBins} --numberOfProcessors {threads} {params.ignoreDuplicates} --minMappingQuality {params.minMappingQuality} --samFlagExclude {params.samFlagExclude} {params.blackListFileName} {input.blackListFileName} 2> {log}"
 
 rule alignmentSieve:
     params:
@@ -142,8 +162,8 @@ rule multiBamSummary:
         samples = get_all_samples,
         blackListFileName = "--blackListFileName" if config["rmsk_url"] else ""
     input:
-        bamfiles = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".corrected.filtered.sorted.bam"),
-        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".corrected.filtered.sorted.bam.bai"),
+        bamfiles = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".corrected.filtered.sorted.bam", is_results=True),
+        bamfiles_index = lambda wildcards: get_all_sorted_bam(wildcards, suffix=".corrected.filtered.sorted.bam.bai", is_results=True),
         BED = get_summary_bed,
         blackListFileName = "results/rmsk.bed" if config["rmsk_url"] else []
     output:

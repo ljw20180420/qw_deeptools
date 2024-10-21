@@ -10,6 +10,7 @@ set-threads:
   bamPEFragmentSize: 8
   plotCoverage: 8
   plotEnrichment: 8
+  estimateReadFiltering: 8
   alignmentSieve: 2
   computeGCBias: 8
   correctGCBias: 8

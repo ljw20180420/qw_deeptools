@@ -30,6 +30,10 @@ plotEnrichment:
   minMappingQuality: 20
   samFlagExclude: 256
 
+estimateReadFiltering:
+  binSize: 1000000
+  distanceBetweenBins: 10000
+
 alignmentSieve:
   genomeChunkLength: 1000000
   ignoreDuplicates: "--ignoreDuplicates" # "" to triggle off

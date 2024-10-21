@@ -36,7 +36,7 @@ def get_group_sorted_bam(wildcards, suffix=".sorted.bam"):
         for file in df["sample"][df["group"] == wildcards.group]
     ]
 
-def get_all_sorted_bam(wildcards, suffix=".sorted.bam", is_results=True):
+def get_all_sorted_bam(wildcards, suffix=".sorted.bam", is_results=False):
     df = pd.read_csv(Path("config") / "samplesheet.csv", header=0, na_filter=False)
     return [
         Path("results") / (Path(file).name.removesuffix(".sorted.bam") + suffix) if is_results
@@ -104,9 +104,10 @@ def get_run_all(wildcards):
         "results/plotFingerprint.pdf",
         "results/bamPEFragmentSize.pdf",
         "results/plotCoverage.pdf",
+        "results/plotEnrichment.pdf",
+        "results/estimateReadFiltering.tsv",
         "results/computeMatrix.gz",
-        "results/plotHeatmap.pdf",
-        "results/plotEnrichment.pdf"
+        "results/plotHeatmap.pdf"
     ] + [
         f"results/plotCorrelation.{stem}.pdf"
         for stem in summary_bed_stems
