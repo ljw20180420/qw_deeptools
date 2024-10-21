@@ -1,4 +1,22 @@
-cores:
-  16
+software-deployment-method:
+  - "conda"
+  - "apptainer"
+rerun-incomplete: true
+cores: 16
+max-threads: 8
+set-threads:
+  index_sorted_bam: 2
+  plotFingerprint: 8
+  bamPEFragmentSize: 8
+  plotCoverage: 8
+  plotEnrichment: 8
+  alignmentSieve: 2
+  computeGCBias: 8
+  correctGCBias: 8
+  multiBamSummary: 2
+  bamCoverage: 2
+  bigwigAverage: 2
+  bigwigCompare: 2
+  computeMatrix: 8
 resources:
   mem_mb: 50000

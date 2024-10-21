@@ -1,9 +1,4 @@
 channels:
   - bioconda
-  - conda-forge
-  - defaults
 dependencies:
   - deeptools
-  - bedops
-  - coreutils
-  - requests

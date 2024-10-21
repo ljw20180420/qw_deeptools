@@ -1,10 +1,144 @@
 # genome url, must be .2bit
-genome_url: "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.2bit"
+genome_url: "file:///home/ljw/wuqiang/CZS/qw_deeptools/testdata/genome.2bit"
 # rmsk used as black list
-rmsk_url: "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz"
+rmsk_url: ""
 # https://deeptools.readthedocs.io/en/latest/content/feature/effectiveGenomeSize.html
-effectiveGenomeSize: 2308125299
-fragmentLength: 150
-binSize: 50
-sampleSize: 50000000
-regionSize: 300
+officialAssemblyName: "test" # GRCh37, GRCh38, T2T/CHM13CAT_v2, GRCm37, GRCm38, dm3, dm6, GRCz10, GRCz11, WBcel235, TAIR10, test
+fragmentLength: 76
+
+plotFingerprint:
+  ignoreDuplicates: "--ignoreDuplicates" # "" to triggle off
+  minMappingQuality: 20
+  samFlagExclude: 256
+  binSize: 500
+  numberOfSamples: 500000
+  skipZeros: "--skipZeros" # "" to triggle off
+
+bamPEFragmentSize:
+  binSize: 1000
+  distanceBetweenBins: 1000000
+
+plotCoverage:
+  skipZeros: "--skipZeros" # "" to triggle off
+  numberOfSamples: 1000000
+  ignoreDuplicates: "--ignoreDuplicates" # "" to triggle off
+  minMappingQuality: 20
+  samFlagExclude: 256
+
+plotEnrichment:
+  ignoreDuplicates: "--ignoreDuplicates" # "" to triggle off
+  minMappingQuality: 20
+  samFlagExclude: 256
+
+alignmentSieve:
+  genomeChunkLength: 1000000
+  ignoreDuplicates: "--ignoreDuplicates" # "" to triggle off
+  minMappingQuality: 20
+  samFlagExclude: 256
+
+computeGCBias:
+  sampleSize: 50000000
+  regionSize: 300
+
+correctGCBias:
+  binSize: 50
+
+multiBamSummary:
+  summary_bed:
+    - "testdata/merge.bed"
+
+plotCorrelation:
+  corMethod: "spearman"
+  whatToPlot: scatterplot
+  skipZeros: "--skipZeros" # "" to triggle off
+  removeOutliers: "--removeOutliers" # "" to triggle off
+
+plotPCA:
+  rowCenter: "--rowCenter" # "" to triggle off
+  ntop: 1000
+
+bamCoverage:
+  binSize: 50
+  normalizeUsing: "RPKM" # RPKM, CPM, BPM, RPGC, None
+  exactScaling: "" # "--exactScaling" to triggle on
+  skipNonCoveredRegions: "" # "--skipNonCoveredRegions" to triggle on
+
+bigwigAverage:
+  binSize: 50
+
+bigwigCompare:
+  pseudocount: 1
+  skipZeroOverZero: "" # "--skipZeroOverZero" to triggle on
+  operation: "subtract" # log2, ratio, subtract, add, mean, reciprocal_ratio, first, second
+  skipNonCoveredRegions: "" # "--skipNonCoveredRegions" to triggle on
+  binSize: 50
+
+computeMatrix:
+  referencePoint: "center" # TSS, TES, center
+  beforeRegionStartLength: 500
+  afterRegionStartLength: 500
+  nanAfterEnd: "" # "--nanAfterEnd" to triggle on
+  binSize: 10
+  missingDataAsZero: "" # "--missingDataAsZero" to triggle on
+  skipZeros: "" # "--skipZeros" to triggle on
+  minThreshold: "" # "--minThreshold <float>" to set a value
+  maxThreshold: "" # "--maxThreshold <float>" to set a value
+  regionsFileName:
+    - "testdata/SPT5_T0_REP1_peaks.narrowPeak"
+    - "testdata/SPT5_T0_REP2_peaks.narrowPeak"
+    - "testdata/SPT5_T15_REP1_peaks.narrowPeak"
+    - "testdata/SPT5_T15_REP2_peaks.narrowPeak"
+
+plotHeatmap:
+  interpolationMethod: "auto" # auto, nearest, bilinear, bicubic, gaussian
+  dpi: 100
+  plotType: "lines" # lines, fill, se, std
+  sortRegions: "descend" # descend, ascend, no, keep
+  sortUsing: "mean" # mean, median, max, min, sum, region_length
+  sortUsingSamples: "1" # multple specification is possible, e.g. "1 3"
+  averageTypeSummaryPlot: "mean" # mean, median, min, max, std, sum
+  zMin: "auto" # float
+  zMax: "auto" # float
+  heatmapHeight: 28
+  heatmapWidth: 4
+  xAxisLabel: "pos"
+  yAxisLabel: "val"
+  refPointLabel: "center"
+  yMin: "" # "--yMin float"
+  yMax: "" # "--yMax float"
+  legendLocation: "best" # best, upper-right, upper-left, upper-center, lower-left, lower-right, lower-center, center, center-left, center-right, none
+  perGroup: "--perGroup" # "" to triggle off
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

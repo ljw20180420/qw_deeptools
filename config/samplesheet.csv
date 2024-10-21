@@ -1,0 +1,5 @@
+sample,group,control_group,peak
+testdata/SPT5_T0_REP1.mLb.clN.sorted.bam,T0,T15,testdata/SPT5_T0_REP1_peaks.narrowPeak
+testdata/SPT5_T0_REP2.mLb.clN.sorted.bam,T0,T15,testdata/SPT5_T0_REP2_peaks.narrowPeak
+testdata/SPT5_T15_REP1.mLb.clN.sorted.bam,T15,,testdata/SPT5_T15_REP1_peaks.narrowPeak
+testdata/SPT5_T15_REP2.mLb.clN.sorted.bam,T15,,testdata/SPT5_T15_REP2_peaks.narrowPeak
