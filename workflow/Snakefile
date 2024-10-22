@@ -1,10 +1,10 @@
 from snakemake.utils import min_version
 min_version("8.20.6")
 
-configfile: workflow.source_path("../config/config.yaml")
-report: workflow.source_path("report/workflow.rst")
+configfile: "config/config.yaml"
+report: "report/workflow.rst"
 # container: "docker://continuumio/miniconda3"
-container: workflow.source_path("../singularity/miniconda3.sif")
+container: "singularity/miniconda3.sif"
 
 # include
 include: "rules/common.smk"
