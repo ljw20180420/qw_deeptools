@@ -2,4 +2,4 @@
 .snakemake
 resources
 results
-**/*.bam.bai
+**.bam.bai
